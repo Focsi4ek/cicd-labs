@@ -3,11 +3,11 @@
 <h1>🚀 CI/CD Laboratory</h1>
 
 <p><b>Мои учебные проекты по автоматизации проверок, сборки и публикации приложений</b></p>
-<p>13 репозиториев · 8 языков программирования · Docker · GitHub Actions</p>
+<p>15 репозиториев · 10 языков программирования · Docker · GitHub Actions · GitHub Pages</p>
 
 <p>
-  <img src="https://img.shields.io/badge/Projects-13-2563EB?style=for-the-badge" alt="13 проектов">
-  <img src="https://img.shields.io/badge/Languages-8-7C3AED?style=for-the-badge" alt="8 языков">
+  <img src="https://img.shields.io/badge/Projects-15-2563EB?style=for-the-badge" alt="15 проектов">
+  <img src="https://img.shields.io/badge/Languages-10-7C3AED?style=for-the-badge" alt="10 языков">
   <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white" alt="GitHub Actions">
   <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
 </p>
@@ -23,9 +23,9 @@
 
 ---
 
-Эта коллекция показывает развитие от первого workflow до автоматической публикации контейнеров и готовых программ для Linux, macOS и Windows. Каждый проект находится в отдельном репозитории; этот README объединяет их в один каталог.
+Эта коллекция показывает развитие от первого workflow до автоматической публикации контейнеров, готовых программ и полноценного деплоя веб-приложений. Каждый проект находится в отдельном репозитории; этот README объединяет их в один каталог.
 
-В проектах используются **Python, JavaScript, Go, Rust, PHP, C++, Java и C#**. Бейдж CI рядом с репозиторием показывает статус его workflow и ведёт к журналу запусков.
+В проектах используются **Python, JavaScript, TypeScript, Go, Rust, PHP, C++, Java, C# и HTML/CSS**. Бейдж CI рядом с репозиторием показывает статус его workflow и ведёт к журналу запусков.
 
 <a id="catalog"></a>
 
@@ -49,9 +49,25 @@
 | [my-cpp-app](https://github.com/Focsi4ek/my-cpp-app) | C++ · clang-format · CMake · Google Test | Сборка и CTest; запуск контейнера, образ как артефакт | [![CI](https://github.com/Focsi4ek/my-cpp-app/actions/workflows/ci.yml/badge.svg)](https://github.com/Focsi4ek/my-cpp-app/actions) |
 | [hello-java](https://github.com/Focsi4ek/hello-java) | Java · Maven · JUnit 5 | Проверки Maven, исполняемый JAR и Docker-образ | [![CI](https://github.com/Focsi4ek/hello-java/actions/workflows/ci.yml/badge.svg)](https://github.com/Focsi4ek/hello-java/actions) |
 
-В `my-cpp-app`, `my-php-app` и `my-rust-app` Docker-образ сохраняется как архив в **Artifacts** запуска CI. В `my-go-app` отдельно сохраняется отчёт покрытия тестами. Доступность этих артефактов зависит от срока хранения.
+В `my-cpp-app`, `my-php-app` и `my-rust-app` Docker-образ сохраняется как архив в **Artifacts** запуска CI. В `my-go-app` отдельно сохраняется отчёт покрытия тестами.
 
-### 03 · Публикация контейнеров в GHCR
+### 03 · Деплой веб-приложений на GitHub Pages
+
+| Репозиторий | Стек | Что реализовано | CD |
+| --- | --- | --- | --- |
+| [hello-pages](https://github.com/Focsi4ek/hello-pages) | React · TypeScript · Vite | Проверка типов, линтинг, тесты, сборка и автодеплой статики на GitHub Pages | [![Deploy](https://github.com/Focsi4ek/hello-pages/actions/workflows/deploy.yml/badge.svg)](https://github.com/Focsi4ek/hello-pages/actions) |
+
+В проекте настроен полный цикл CI/CD: проверка типов (`tsc`), линтинг (`oxlint`), сборка (`vite build`) и публикация готового `dist/` на GitHub Pages при каждом пуше в `main`.
+
+### 04 · Фуллстек и базы данных в CI
+
+| Репозиторий | Стек | Что реализовано | CI |
+| --- | --- | --- | --- |
+| [my-fullstack-app](https://github.com/Focsi4ek/my-fullstack-app) | Python · FastAPI · PostgreSQL · Docker | Тесты с реальной БД (Service Container), линтинг Ruff, сборка и публикация Docker-образа в GHCR | [![CI](https://github.com/Focsi4ek/my-fullstack-app/actions/workflows/ci.yml/badge.svg)](https://github.com/Focsi4ek/my-fullstack-app/actions) |
+
+В этом проекте GitHub Actions автоматически поднимает контейнер с PostgreSQL 16 для прогона тестов бэкенда, после чего собирает Docker-образ приложения и пушит его в GitHub Container Registry.
+
+### 05 · Публикация контейнеров в GHCR
 
 | Репозиторий | Проверки | Публикация | CI |
 | --- | --- | --- | --- |
@@ -60,7 +76,7 @@
 
 Образы публикуются при push в `main`. Workflow создаёт теги `latest` и короткий SHA коммита. При pull request выполняется сборка без публикации.
 
-### 04 · Бинарники в GitHub Releases
+### 06 · Бинарники в GitHub Releases
 
 | Репозиторий | Проверки и сборка | Платформы | CI |
 | --- | --- | --- | --- |
@@ -120,13 +136,14 @@ Sum 1..10 = 55
 | Направление | Практика в проектах |
 | --- | --- |
 | **Автоматизация** | Workflow на YAML, события push и pull request, jobs, steps и зависимости между заданиями |
-| **Качество кода** | Проверка форматирования, линтеры и статический анализ |
-| **Тестирование** | Unit-тесты, матрицы версий Python и Node.js, отчёт покрытия Go |
-| **Сборка** | Cargo, Maven, CMake, Go, PyInstaller и .NET CLI |
-| **Контейнеризация** | Dockerfile, сборка образов и проверочный запуск контейнеров |
+| **Качество кода** | Проверка форматирования, линтеры (ESLint, Ruff, Clippy) и статический анализ |
+| **Тестирование** | Unit-тесты (pytest, Vitest), матрицы версий Python/Node.js, тесты с реальной БД в CI |
+| **Сборка** | Cargo, Maven, CMake, Go, PyInstaller, .NET CLI и Vite |
+| **Контейнеризация** | Dockerfile, Docker Compose, сборка образов и проверочный запуск контейнеров |
 | **Артефакты** | Передача результатов между jobs, архивы Docker-образов и отчёты тестов |
 | **Публикация образов** | GHCR, Docker Buildx, QEMU, теги latest и SHA, две Linux-архитектуры |
 | **Выпуск программ** | Git-теги, версия в бинарнике, матричная сборка и GitHub Releases |
+| **Деплой (CD)** | Публикация статики на GitHub Pages через официальный actions/deploy-pages |
 
 Локальные проверки выполнялись через Docker, в том числе на Mac с Apple Silicon. SDK и инструменты сборки запускались внутри контейнеров.
 
@@ -136,12 +153,13 @@ Sum 1..10 = 55
 
 1. **Открыть репозиторий** — посмотреть исходники, тесты, Dockerfile и README проекта, если он есть.
 2. **Перейти в Actions** — открыть workflow и логи форматирования, тестов, сборки или публикации.
-3. **Проверить результат сборки** — выбрать подходящий раздел из таблицы ниже.
+3. **Проверить результат** — выбрать подходящий раздел из таблицы ниже.
 
 | Где искать | Что находится | Для каких проектов |
 | --- | --- | --- |
 | **Actions → запуск → Artifacts** | Архивы Docker-образов и отчёт покрытия | my-cpp-app, my-php-app, my-rust-app, my-go-app |
-| **Packages / GHCR** | Опубликованные контейнерные образы | hello-go, hello-rust |
+| **Packages / GHCR** | Опубликованные контейнерные образы | hello-go, hello-rust, my-fullstack-app |
+| **GitHub Pages** | Живой работающий сайт | hello-pages |
 | **Releases** | Исполняемые файлы для нужной ОС и архитектуры | hello-go-bin, hello-python, hello-dotnet |
 
 Общий каталог содержит ссылки на самостоятельные проекты. Для клонирования, проверки и сборки нужно выбрать конкретный репозиторий.
@@ -150,6 +168,5 @@ Sum 1..10 = 55
 
 <div align="center">
 <p><b>Даниил Абрамов</b> · <a href="https://github.com/Focsi4ek">Focsi4ek</a></p>
-<p>Учебная практика: GitHub Actions · тесты · Docker · GHCR · Releases</p>
+<p>Учебная практика: GitHub Actions · тесты · Docker · GHCR · Releases · Pages</p>
 </div>
-
